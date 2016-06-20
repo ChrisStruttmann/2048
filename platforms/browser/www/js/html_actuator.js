@@ -67,7 +67,11 @@ HTMLActuator.prototype.addTile = function (tile) {
 
   inner.classList.add("tile-inner");
   inner.textContent = toBin(tile.value);
-
+   var x = parseInt(title.value, 2); 
+   var sz = Math.log2(x); 
+   var sz = Math.min(24 - (2*sz), 8); 
+   var ft = sz + "px"; 
+  inner.style["font-size"] = ft; 
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
     window.requestAnimationFrame(function () {
