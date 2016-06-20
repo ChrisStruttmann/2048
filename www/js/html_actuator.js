@@ -16,6 +16,7 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
     grid.cells.forEach(function (column) {
       column.forEach(function (cell) {
         if (cell) {
+			
           self.addTile(cell);
         }
       });
@@ -66,12 +67,14 @@ HTMLActuator.prototype.addTile = function (tile) {
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.textContent = toBin(tile.value);
-   var x = parseInt(title.value, 2); 
-   var sz = Math.log2(x); 
-   var sz = Math.min(24 - (2*sz), 8); 
-   var ft = sz + "px"; 
-  inner.style["font-size"] = ft; 
+  var bin = toBin(tile.value); 
+  var intt = parseInt(tile.value); 
+  
+  if(intt <= 32) 
+	inner.textContent = "0" + toBin(tile.value);
+  else
+	inner.innerHTML = "2^<sup>" + Math.log2(intt) + "</sup>"; 
+
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
     window.requestAnimationFrame(function () {
@@ -90,6 +93,12 @@ HTMLActuator.prototype.addTile = function (tile) {
     classes.push("tile-new");
     this.applyClasses(wrapper, classes);
   }
+
+   var x = parseInt(tile.value, 2); 
+   var sz = Math.log2(x); 
+   var sz = Math.min(24 - (2*sz), 8); 
+   var ft = sz + "px"; 
+//  wrapper.style["font-size"] = ft; 
 
   // Add the inner part of the tile to the wrapper
   wrapper.appendChild(inner);
